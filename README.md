@@ -2,7 +2,7 @@
 
 ## Power management of Valve v2 lighthouses over Bluetooth LE
 
-This is a for of lh2ctrl introducing command line arguments more suitable for my use case. See below for details.
+This is a fork of lh2ctrl introducing command line arguments more suitable for my use case. See below for details.
 
 This project is mimicking the original [`lhctrl` project](https://github.com/risa2000/lhctrl), which dealt with v1 lighthouses. It is based on the work @nouser2013 did on [Pimax forum thread](https://community.openmr.ai/t/how-to-power-off-basestations-remotely-solved/15205). He also made a Windows implementation of the ideas [here on GitHub](https://github.com/nouser2013/lighthouse-v2-manager/). The difference between this project and the one above is that this project is targeting linux platform and uses the same BT LE Python interface as the original `lhctrl` did.
 
