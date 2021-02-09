@@ -28,7 +28,7 @@ POWER_OFF = b'\x00'
 
 #   defaults
 #-------------------------------------------------------------------------------
-TRY_COUNT       = 5
+TRY_COUNT       = 1
 TRY_PAUSE       = 2
 GLOBAL_TIMEOUT  = 0
 
@@ -126,7 +126,8 @@ def boot(args):
                 print(f'Booting up {lhv2.getName()}')
             lhv2.powerOn()
             lhv2.disconnect()
-        wait(args.global_timeout, verb=args.verbose)
+        if not args.no_wait:
+            wait(args.global_timeout, verb=args.verbose)
     except KeyboardInterrupt:
         print()
         print('Keyboard interrupt caught')
@@ -157,8 +158,10 @@ def main(args):
     """Main runner."""
     signal.signal(signal.SIGTERM, partial(sigterm_hndlr, args, signal.getsignal(signal.SIGTERM)))
     signal.signal(signal.SIGHUP, partial(sigterm_hndlr, args, signal.getsignal(signal.SIGHUP)))
-    boot(args)
-    shutdown(args)
+    if not args.shutdown_only:
+        boot(args)
+    if not args.start_only:
+        shutdown(args)
 
 #   main
 #-------------------------------------------------------------------------------
@@ -173,6 +176,9 @@ if __name__ == '__main__':
     ap.add_argument('--try_count', type=int, default=TRY_COUNT, help='number of tries to set up a connection [%(default)s]')
     ap.add_argument('--try_pause', type=int, default=TRY_PAUSE, help='sleep time when reconnecting [%(default)s]')
     ap.add_argument('-v', '--verbose', action='count', default=0, help='increase verbosity of the log to stdout')
+    ap.add_argument('--start_only', action='store_true')
+    ap.add_argument('--shutdown_only', action='store_true')
+    ap.add_argument('--no_wait', action='store_true')
 
     args = ap.parse_args()
     main(args)
