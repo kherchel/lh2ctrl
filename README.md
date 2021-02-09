@@ -1,19 +1,30 @@
 # lh2ctrl
+
 ## Power management of Valve v2 lighthouses over Bluetooth LE
+
+This is a for of lh2ctrl introducing command line arguments more suitable for my use case. See below for details.
 
 This project is mimicking the original [`lhctrl` project](https://github.com/risa2000/lhctrl), which dealt with v1 lighthouses. It is based on the work @nouser2013 did on [Pimax forum thread](https://community.openmr.ai/t/how-to-power-off-basestations-remotely-solved/15205). He also made a Windows implementation of the ideas [here on GitHub](https://github.com/nouser2013/lighthouse-v2-manager/). The difference between this project and the one above is that this project is targeting linux platform and uses the same BT LE Python interface as the original `lhctrl` did.
 
-### BT LE protocol simplified ###
+### BT LE protocol simplified
+
 While v1 lighthouses used a quite convoluted protocol to keep the lighthouse running the v2 lighthouses are much simpler. Using BT LE GATT protocol, one just needs to write zero or one to one particular characteristics (**00001525-1212-efde-1523-785feabcd124**) in order to either power on or off the lighthouse.
 
 ### Solution
+
 The implemented solution [lh2ctrl.py](/pylhctrl/lh2ctrl.py) uses Python `bluepy` package to access `bluez` BT LE API. The script writes to a particular characteristic to start or stop the lighthouse.
 
-#### Usage
+#### Quick examples
+
 ```
-usage: lh2ctrl.py [-h] [-g GLOBAL_TIMEOUT] [-i INTERFACE]
-                  [--try_count TRY_COUNT] [--try_pause TRY_PAUSE] [-v]
-                  lh_mac [lh_mac ...]
+python lh2ctrl.py --start_only --no_wait aa:bb:cc:dd:ee:ff gg:hh:ii:jj:kk:ll # Start the lighthouses
+python lh2ctrl.py --start_only --no_wait aa:bb:cc:dd:ee:ff gg:hh:ii:jj:kk:ll # Stop the lighthouses
+```
+
+#### Usage
+
+```
+usage: lh2ctrl.py [-h] [-g GLOBAL_TIMEOUT] [-i INTERFACE] [--try_count TRY_COUNT] [--try_pause TRY_PAUSE] [-v] [--start_only] [--shutdown_only] [--no_wait] lh_mac [lh_mac ...]
 
 Wakes up and runs Valve v2 lighthouse(s) using BT LE power management
 
@@ -35,4 +46,7 @@ optional arguments:
   --try_pause TRY_PAUSE
                         sleep time when reconnecting [2]
   -v, --verbose         increase verbosity of the log to stdout
-  ```
+  --start_only          perform the start action only
+  --shutdown_only       perform the shutdown action only
+  --no_wait             don't wait
+```
