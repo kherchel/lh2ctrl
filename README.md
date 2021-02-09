@@ -18,7 +18,7 @@ The implemented solution [lh2ctrl.py](/pylhctrl/lh2ctrl.py) uses Python `bluepy`
 
 ```
 python lh2ctrl.py --start_only --no_wait aa:bb:cc:dd:ee:ff gg:hh:ii:jj:kk:ll # Start the lighthouses
-python lh2ctrl.py --start_only --no_wait aa:bb:cc:dd:ee:ff gg:hh:ii:jj:kk:ll # Stop the lighthouses
+python lh2ctrl.py --shutdown_only aa:bb:cc:dd:ee:ff gg:hh:ii:jj:kk:ll # Stop the lighthouses
 ```
 
 #### Usage
